@@ -1,0 +1,143 @@
+-----------------------------------------------------------
+-- 10 Records
+-- ------------------------------------------------------------
+INSERT INTO stations VALUES
+(1,'GreenCharge Hub','Hyderabad','Madhapur','2024-01-15','Active'),
+(2,'PowerEV Station','Visakhapatnam','MVP Colony','2024-03-10','Active'),
+(3,'EcoCharge Point','Bengaluru','Whitefield','2023-11-20','Active'),
+(4,'FastVolt Station','Chennai','T Nagar','2024-05-05','Maintenance'),
+(5,'SmartCharge Hub','Hyderabad','Gachibowli','2024-07-18','Active'),
+(6,'Coastal EV Point','Visakhapatnam','Rushikonda','2025-01-12','Inactive');
+ 
+INSERT INTO chargers VALUES
+(101,1,'DC Fast',60,'Available'),
+(102,1,'AC Slow',7.4,'Available'),
+(103,2,'DC Fast',50,'Available'),
+(104,2,'AC Slow',7.4,'Maintenance'),
+(105,3,'DC Fast',120,'Available'),
+(106,3,'AC Fast',11,'In Use'),
+(107,4,'DC Fast',60,'Maintenance'),
+(108,5,'DC Fast',90,'Available'),
+(109,5,'AC Fast',22,'Available'),
+(110,6,'AC Slow',7.4,'Offline');
+ 
+INSERT INTO customers VALUES
+(201,'Rahul Sharma','rahul@example.com','9000000001','Hyderabad','2025-01-05'),
+(202,'Priya Reddy','priya@example.com','9000000002','Visakhapatnam','2025-01-12'),
+(203,'Arjun Kumar','arjun@example.com','9000000003','Bengaluru','2025-02-01'),
+(204,'Sneha Rao','sneha@example.com','9000000004','Hyderabad','2025-02-14'),
+(205,'Kiran Patel','kiran@example.com','9000000005','Chennai','2025-03-02'),
+(206,'Divya Nair','divya@example.com','9000000006','Bengaluru','2025-03-20'),
+(207,'Manoj Das','manoj@example.com','9000000007','Visakhapatnam','2025-04-01'),
+(208,'Ananya Singh','ananya@example.com','9000000008','Hyderabad','2025-04-15');
+ 
+INSERT INTO vehicles VALUES
+(501,201,'Mahindra','XEV 9e','TS09EV1001',79.0,'Electric Car'),
+(502,202,'Ather','450X','AP31EV2002',3.7,'Electric Scooter'),
+(503,203,'MG','ZS EV','KA01EV3003',50.3,'Electric Car'),
+(504,204,'Revolt','RV400','TS08EV4004',3.2,'Electric Bike'),
+(505,205,'Kia','EV6','TN07EV5005',77.4,'Electric Car'),
+(506,206,'Ola','S1 Pro','KA03EV6006',4.0,'Electric Scooter'),
+(507,207,'Eicher','Skyline Pro E','AP39EV7007',200.0,'Electric Bus'),
+(508,208,'Tata','Punch EV','TS10EV8008',35.0,'Electric Car'),
+(509,201,'MG','Comet EV','TS09EV1010',17.3,'Electric Car');
+ 
+INSERT INTO membership_plans VALUES
+(1,'Basic',199,0,30),
+(2,'Silver',499,5,30),
+(3,'Gold',999,10,30),
+(4,'Fleet',2999,15,90);
+ 
+INSERT INTO customer_memberships VALUES
+(701,201,3,'2026-09-01','2026-12-01','Active'),
+(702,203,2,'2026-08-15','2026-11-15','Active'),
+(703,205,2,'2026-06-01','2026-09-01','Expired'),
+(704,207,4,'2026-09-10','2026-12-10','Active'),
+(705,202,1,'2026-10-01','2026-10-31','Active'),
+(706,208,1,'2026-05-01','2026-06-01','Cancelled');
+ 
+INSERT INTO charging_sessions VALUES
+(301,201,501,101,'2026-10-01 09:00:00','2026-10-01 10:00:00',45,540,'Completed'),
+(302,202,502,102,'2026-10-01 11:00:00','2026-10-01 11:40:00',3,36,'Completed'),
+(303,203,503,103,'2026-10-02 10:00:00','2026-10-02 11:30:00',35,420,'Completed'),
+(304,204,504,106,'2026-10-03 08:00:00','2026-10-03 08:35:00',2.5,30,'Completed'),
+(305,205,505,105,'2026-10-04 14:00:00','2026-10-04 15:00:00',60,720,'Completed'),
+(306,201,501,107,'2026-10-05 16:00:00','2026-10-05 17:00:00',40,480,'Completed'),
+(307,206,506,108,'2026-10-06 09:00:00','2026-10-06 09:45:00',3.5,42,'Completed'),
+(308,203,503,101,'2026-10-07 18:00:00','2026-10-07 19:00:00',30,360,'Completed'),
+(309,202,502,103,'2026-10-08 12:00:00','2026-10-08 12:50:00',3.2,38.4,'Completed'),
+(310,205,505,105,'2026-10-09 15:00:00','2026-10-09 16:30:00',55,660,'Completed'),
+(311,207,507,108,'2026-10-10 07:00:00','2026-10-10 08:30:00',70,840,'Completed'),
+(312,208,508,108,'2026-10-10 19:00:00','2026-10-10 20:00:00',32,384,'Completed'),
+(313,201,509,102,'2026-10-11 13:00:00','2026-10-11 13:30:00',3,36,'Completed'),
+(314,206,506,106,'2026-10-12 17:00:00','2026-10-12 17:25:00',2.5,30,'Completed'),
+(315,204,504,103,'2026-10-13 20:00:00',NULL,0,0,'In Progress');
+ 
+INSERT INTO payments VALUES
+(401,301,'UPI','Paid','2026-10-01 10:05:00'),
+(402,302,'Card','Paid','2026-10-01 11:45:00'),
+(403,303,'UPI','Paid','2026-10-02 11:35:00'),
+(404,304,'Cash','Paid','2026-10-03 08:40:00'),
+(405,305,'Card','Paid','2026-10-04 15:05:00'),
+(406,306,'UPI','Paid','2026-10-05 17:05:00'),
+(407,307,'Wallet','Pending',NULL),
+(408,308,'Card','Paid','2026-10-07 19:05:00'),
+(409,309,'Cash','Paid','2026-10-08 12:55:00'),
+(410,310,'UPI','Pending',NULL),
+(411,311,'Net Banking','Paid','2026-10-10 08:35:00'),
+(412,312,'UPI','Paid','2026-10-10 20:05:00'),
+(413,313,'Wallet','Failed','2026-10-11 13:35:00'),
+(414,314,'UPI','Paid','2026-10-12 17:30:00'),
+(415,315,'Card','Pending',NULL);
+ 
+INSERT INTO maintenance VALUES
+(801,104,'Connector overheating','2026-09-25','2026-09-28','Ravi Teja','Resolved'),
+(802,104,'Display not working','2026-10-05',NULL,'Ravi Teja','In Progress'),
+(803,107,'Power module failure','2026-10-01',NULL,'Suresh Babu','Open'),
+(804,110,'Network communication lost','2026-09-10','2026-09-20','Imran Khan','Resolved'),
+(805,106,'Cable wear and tear','2026-08-12','2026-08-14','Imran Khan','Resolved'),
+(806,101,'Routine inspection','2026-10-15','2026-10-15','Suresh Babu','Resolved');
+ 
+INSERT INTO station_reviews VALUES
+(901,201,1,5,'Fast charging and clean location','2026-10-01'),
+(902,202,1,4,'Slow charger but reliable','2026-10-02'),
+(903,203,2,4,'Good speed, parking is limited','2026-10-03'),
+(904,204,3,3,'Charger was busy','2026-10-04'),
+(905,205,3,5,'Excellent 120 kW charger','2026-10-05'),
+(906,201,4,2,'Charger under maintenance','2026-10-06'),
+(907,206,5,4,'Smooth experience','2026-10-07'),
+(908,203,1,5,'Always available','2026-10-08'),
+(909,207,5,5,'Great for bus charging','2026-10-11'),
+(910,208,5,4,'Clean and well lit','2026-10-11');
+
+
+-- 1. stations
+SELECT * FROM stations;
+
+-- 2. chargers
+SELECT * FROM chargers;
+
+-- 3. customers
+SELECT * FROM customers;
+
+-- 4. vehicles
+SELECT * FROM vehicles;
+
+-- 5. membership_plans
+SELECT * FROM membership_plans;
+
+-- 6. customer_memberships
+SELECT * FROM customer_memberships;
+
+-- 7. charging_sessions
+SELECT * FROM charging_sessions;
+
+-- 8. payments
+SELECT * FROM payments;
+
+-- 9. maintenance_logs
+SELECT * FROM maintenance_logs;
+
+-- 10. station_reviews
+SELECT * FROM station_reviews;
+ 
