@@ -1,0 +1,326 @@
+USE EV_Charging_Analytics;
+
+============================================================
+LEVEL 1 — EASY 
+============================================================
+
+1. Display all charging stations
+SELECT * FROM stations;
++------------+------------------+---------------+------------+-------------+----------------+
+| station_id | station_name     | city          | address    | opened_date | station_status |
++------------+------------------+---------------+------------+-------------+----------------+
+|          1 | GreenCharge Hub  | Hyderabad     | Madhapur   | 2024-01-15  | Active         |
+|          2 | PowerEV Station  | Visakhapatnam | MVP Colony | 2024-03-10  | Active         |
+|          3 | EcoCharge Point  | Bengaluru     | Whitefield | 2023-11-20  | Active         |
+|          4 | FastVolt Station | Chennai       | T Nagar    | 2024-05-05  | Maintenance    |
+|          5 | SmartCharge Hub  | Hyderabad     | Gachibowli | 2024-07-18  | Active         |
+|          6 | Coastal EV Point | Visakhapatnam | Rushikonda | 2025-01-12  | Inactive       |
++------------+------------------+---------------+------------+-------------+----------------+
+6 rows in set (0.04 sec)
+
+2. Display all customers
+SELECT * FROM customers;
++-------------+---------------+--------------------+------------+---------------+-------------------+
+| customer_id | customer_name | email              | phone      | city          | registration_date |
++-------------+---------------+--------------------+------------+---------------+-------------------+
+|         201 | Rahul Sharma  | rahul@example.com  | 9000000001 | Hyderabad     | 2025-01-05        |
+|         202 | Priya Reddy   | priya@example.com  | 9000000002 | Visakhapatnam | 2025-01-12        |
+|         203 | Arjun Kumar   | arjun@example.com  | 9000000003 | Bengaluru     | 2025-02-01        |
+|         204 | Sneha Rao     | sneha@example.com  | 9000000004 | Hyderabad     | 2025-02-14        |
+|         205 | Kiran Patel   | kiran@example.com  | 9000000005 | Chennai       | 2025-03-02        |
+|         206 | Divya Nair    | divya@example.com  | 9000000006 | Bengaluru     | 2025-03-20        |
+|         207 | Manoj Das     | manoj@example.com  | 9000000007 | Visakhapatnam | 2025-04-01        |
+|         208 | Ananya Singh  | ananya@example.com | 9000000008 | Hyderabad     | 2025-04-15        |
++-------------+---------------+--------------------+------------+---------------+-------------------+
+8 rows in set (0.00 sec)
+
+3. Find stations in Hyderabad
+SELECT station_name, city
+FROM stations
+WHERE city = 'Hyderabad';
++-----------------+-----------+
+| station_name    | city      |
++-----------------+-----------+
+| GreenCharge Hub | Hyderabad |
+| SmartCharge Hub | Hyderabad |
++-----------------+-----------+
+2 rows in set (0.01 sec)
+
+4. Find all available chargers
+SELECT charger_id, charger_type, power_kw
+FROM chargers
+WHERE charger_status = 'Available';
++------------+--------------+----------+
+| charger_id | charger_type | power_kw |
++------------+--------------+----------+
+|        101 | DC Fast      |    60.00 |
+|        102 | AC Slow      |     7.40 |
+|        103 | DC Fast      |    50.00 |
+|        105 | DC Fast      |   120.00 |
+|        108 | DC Fast      |    90.00 |
+|        109 | AC Fast      |    22.00 |
++------------+--------------+----------+
+6 rows in set (0.01 sec)
+
+5. Find chargers with power greater than 50 kW
+SELECT charger_id, power_kw
+FROM chargers
+WHERE power_kw > 50;
++------------+----------+
+| charger_id | power_kw |
++------------+----------+
+|        101 |    60.00 |
+|        105 |   120.00 |
+|        107 |    60.00 |
+|        108 |    90.00 |
++------------+----------+
+4 rows in set (0.00 sec)
+
+6. Count the total number of vehicles
+SELECT COUNT(*) AS total_vehicles
+FROM vehicles;
++----------------+
+| total_vehicles |
++----------------+
+|              9 |
++----------------+
+1 row in set (0.01 sec)
+
+7. Count the total number of stations
+SELECT COUNT(*) AS total_stations
+FROM stations;
++----------------+
+| total_stations |
++----------------+
+|              6 |
++----------------+
+1 row in set (0.01 sec)
+
+8. Calculate total energy consumed
+SELECT SUM(energy_kwh) AS total_energy
+FROM charging_sessions;
++--------------+
+| total_energy |
++--------------+
+|       384.70 |
++--------------+
+1 row in set (0.01 sec)
+
+============================================================
+LEVEL 2 — INTERMEDIATE
+============================================================
+
+1. Display charger details with station names
+SELECT ch.charger_id, ch.charger_type, ch.power_kw, s.station_name
+FROM chargers ch
+JOIN stations s ON ch.station_id = s.station_id;
++------------+--------------+----------+------------------+
+| charger_id | charger_type | power_kw | station_name     |
++------------+--------------+----------+------------------+
+|        101 | DC Fast      |    60.00 | GreenCharge Hub  |
+|        102 | AC Slow      |     7.40 | GreenCharge Hub  |
+|        103 | DC Fast      |    50.00 | PowerEV Station  |
+|        104 | AC Slow      |     7.40 | PowerEV Station  |
+|        105 | DC Fast      |   120.00 | EcoCharge Point  |
+|        106 | AC Fast      |    11.00 | EcoCharge Point  |
+|        107 | DC Fast      |    60.00 | FastVolt Station |
+|        108 | DC Fast      |    90.00 | SmartCharge Hub  |
+|        109 | AC Fast      |    22.00 | SmartCharge Hub  |
+|        110 | AC Slow      |     7.40 | Coastal EV Point |
++------------+--------------+----------+------------------+
+10 rows in set (0.01 sec)
+
+2. Display customer names with their charging sessions
+SELECT c.customer_name, cs.session_id, cs.energy_kwh
+FROM customers c
+JOIN charging_sessions cs ON c.customer_id = cs.customer_id;
++---------------+------------+------------+
+| customer_name | session_id | energy_kwh |
++---------------+------------+------------+
+| Rahul Sharma  |        301 |      45.00 |
+| Rahul Sharma  |        306 |      40.00 |
+| Rahul Sharma  |        313 |       3.00 |
+| Priya Reddy   |        302 |       3.00 |
+| Priya Reddy   |        309 |       3.20 |
+| Arjun Kumar   |        303 |      35.00 |
+| Arjun Kumar   |        308 |      30.00 |
+| Sneha Rao     |        304 |       2.50 |
+| Sneha Rao     |        315 |       0.00 |
+| Kiran Patel   |        305 |      60.00 |
+| Kiran Patel   |        310 |      55.00 |
+| Divya Nair    |        307 |       3.50 |
+| Divya Nair    |        314 |       2.50 |
+| Manoj Das     |        311 |      70.00 |
+| Ananya Singh  |        312 |      32.00 |
++---------------+------------+------------+
+15 rows in set (0.00 sec)
+
+3. Calculate total energy consumed by each customer
+SELECT c.customer_name, SUM(cs.energy_kwh) AS total_energy
+FROM customers c
+JOIN charging_sessions cs ON c.customer_id = cs.customer_id
+GROUP BY c.customer_id, c.customer_name;
++---------------+--------------+
+| customer_name | total_energy |
++---------------+--------------+
+| Rahul Sharma  |        88.00 |
+| Priya Reddy   |         6.20 |
+| Arjun Kumar   |        65.00 |
+| Sneha Rao     |         2.50 |
+| Kiran Patel   |       115.00 |
+| Divya Nair    |         6.00 |
+| Manoj Das     |        70.00 |
+| Ananya Singh  |        32.00 |
++---------------+--------------+
+8 rows in set (0.01 sec)
+
+4. Find customers consuming more than 30 kWh
+SELECT c.customer_name, SUM(cs.energy_kwh) AS total_energy
+FROM customers c
+JOIN charging_sessions cs ON c.customer_id = cs.customer_id
+GROUP BY c.customer_id, c.customer_name
+HAVING SUM(cs.energy_kwh) > 30;
++---------------+--------------+
+| customer_name | total_energy |
++---------------+--------------+
+| Rahul Sharma  |        88.00 |
+| Arjun Kumar   |        65.00 |
+| Kiran Patel   |       115.00 |
+| Manoj Das     |        70.00 |
+| Ananya Singh  |        32.00 |
++---------------+--------------+
+5 rows in set (0.01 sec)
+
+5. Count chargers at each station
+SELECT s.station_name, COUNT(ch.charger_id) AS total_chargers
+FROM stations s
+LEFT JOIN chargers ch ON s.station_id = ch.station_id
+GROUP BY s.station_id, s.station_name;
++------------------+----------------+
+| station_name     | total_chargers |
++------------------+----------------+
+| GreenCharge Hub  |              2 |
+| PowerEV Station  |              2 |
+| EcoCharge Point  |              2 |
+| FastVolt Station |              1 |
+| SmartCharge Hub  |              2 |
+| Coastal EV Point |              1 |
++------------------+----------------+
+6 rows in set (0.00 sec)
+
+6. Calculate total spending by each customer
+SELECT c.customer_name, SUM(cs.cost) AS total_spending
+FROM customers c
+JOIN charging_sessions cs ON c.customer_id = cs.customer_id
+GROUP BY c.customer_id, c.customer_name
+ORDER BY total_spending DESC;
++---------------+----------------+
+| customer_name | total_spending |
++---------------+----------------+
+| Kiran Patel   |        1380.00 |
+| Rahul Sharma  |        1056.00 |
+| Manoj Das     |         840.00 |
+| Arjun Kumar   |         780.00 |
+| Ananya Singh  |         384.00 |
+| Priya Reddy   |          74.40 |
+| Divya Nair    |          72.00 |
+| Sneha Rao     |          30.00 |
++---------------+----------------+
+8 rows in set (0.01 sec)
+
+============================================================
+LEVEL 3 — HARD 
+============================================================
+
+1. Find the customer who spent the most
+SELECT c.customer_name, SUM(cs.cost) AS total_spending
+FROM customers c
+JOIN charging_sessions cs ON c.customer_id = cs.customer_id
+GROUP BY c.customer_id, c.customer_name
+ORDER BY total_spending DESC
+LIMIT 1;
++---------------+----------------+
+| customer_name | total_spending |
++---------------+----------------+
+| Kiran Patel   |        1380.00 |
++---------------+----------------+
+1 row in set (0.00 sec)
+
+2. Find chargers with above-average power
+SELECT charger_id, power_kw
+FROM chargers
+WHERE power_kw > (SELECT AVG(power_kw) FROM chargers);
++------------+----------+
+| charger_id | power_kw |
++------------+----------+
+|        101 |    60.00 |
+|        103 |    50.00 |
+|        105 |   120.00 |
+|        107 |    60.00 |
+|        108 |    90.00 |
++------------+----------+
+5 rows in set (0.00 sec)
+
+
+3. Find the most-used charger
+SELECT ch.charger_id, COUNT(cs.session_id) AS total_sessions
+FROM chargers ch
+LEFT JOIN charging_sessions cs ON ch.charger_id = cs.charger_id
+GROUP BY ch.charger_id
+ORDER BY total_sessions DESC
+LIMIT 1;
++------------+----------------+
+| charger_id | total_sessions |
++------------+----------------+
+|        103 |              3 |
++------------+----------------+
+1 row in set (0.00 sec)
+
+4. Rank customers by energy consumption
+SELECT c.customer_name,
+       SUM(cs.energy_kwh) AS total_energy,
+       RANK() OVER (ORDER BY SUM(cs.energy_kwh) DESC) AS energy_rank
+FROM customers c
+JOIN charging_sessions cs ON c.customer_id = cs.customer_id
+GROUP BY c.customer_id, c.customer_name;
++---------------+--------------+-------------+
+| customer_name | total_energy | energy_rank |
++---------------+--------------+-------------+
+| Kiran Patel   |       115.00 |           1 |
+| Rahul Sharma  |        88.00 |           2 |
+| Manoj Das     |        70.00 |           3 |
+| Arjun Kumar   |        65.00 |           4 |
+| Ananya Singh  |        32.00 |           5 |
+| Priya Reddy   |         6.20 |           6 |
+| Divya Nair    |         6.00 |           7 |
+| Sneha Rao     |         2.50 |           8 |
++---------------+--------------+-------------+
+8 rows in set (0.01 sec)
+
+
+5. Calculate the running total of energy
+SELECT session_id, start_time, energy_kwh,
+       SUM(energy_kwh) OVER (
+           ORDER BY start_time, session_id
+       ) AS running_energy
+FROM charging_sessions;
++------------+---------------------+------------+----------------+
+| session_id | start_time          | energy_kwh | running_energy |
++------------+---------------------+------------+----------------+
+|        301 | 2026-10-01 09:00:00 |      45.00 |          45.00 |
+|        302 | 2026-10-01 11:00:00 |       3.00 |          48.00 |
+|        303 | 2026-10-02 10:00:00 |      35.00 |          83.00 |
+|        304 | 2026-10-03 08:00:00 |       2.50 |          85.50 |
+|        305 | 2026-10-04 14:00:00 |      60.00 |         145.50 |
+|        306 | 2026-10-05 16:00:00 |      40.00 |         185.50 |
+|        307 | 2026-10-06 09:00:00 |       3.50 |         189.00 |
+|        308 | 2026-10-07 18:00:00 |      30.00 |         219.00 |
+|        309 | 2026-10-08 12:00:00 |       3.20 |         222.20 |
+|        310 | 2026-10-09 15:00:00 |      55.00 |         277.20 |
+|        311 | 2026-10-10 07:00:00 |      70.00 |         347.20 |
+|        312 | 2026-10-10 19:00:00 |      32.00 |         379.20 |
+|        313 | 2026-10-11 13:00:00 |       3.00 |         382.20 |
+|        314 | 2026-10-12 17:00:00 |       2.50 |         384.70 |
+|        315 | 2026-10-13 20:00:00 |       0.00 |         384.70 |
++------------+---------------------+------------+----------------+
+15 rows in set (0.00 sec)
